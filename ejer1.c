@@ -141,6 +141,10 @@ int main(int argc, char** argv)
     }
     fin = MPI_Wtime();
     printf("tiempo: %f\n", fin-inicio);
+
+    free(first);
+    free(second);
+    free(multiply);
   }
  
   MPI_Finalize();
