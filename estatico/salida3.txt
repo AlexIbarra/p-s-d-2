@@ -1,0 +1,43 @@
+Matriz A:
+3	10	
+3	5	
+
+
+Matriz B:
+4	5	
+8	0	
+
+
+tmpC[c*q+d] = tmpC[c*q+d] + first[c*n+k]*tmpA[d*p+k];
+
+Rank 0 calculando:
+tmpC[0] = (12 + (3*4))
+tmpC[0] = (92 + (10*8))
+
+tmpC[1] = (0 + (3*0))
+tmpC[1] = (0 + (10*0))
+
+tmpC[2] = (12 + (3*4))
+tmpC[2] = (52 + (5*8))
+
+tmpC[3] = (0 + (3*0))
+tmpC[3] = (0 + (5*0))
+
+
+Rank 1 calculando:
+tmpC[0] = (15 + (3*5))
+tmpC[0] = (15 + (10*0))
+
+tmpC[1] = (0 + (3*0))
+tmpC[1] = (0 + (10*0))
+
+tmpC[2] = (15 + (3*5))
+tmpC[2] = (15 + (5*0))
+
+tmpC[3] = (0 + (3*0))
+tmpC[3] = (0 + (5*0))
+
+
+Product of entered matrices:
+92	0	
+15	0	
