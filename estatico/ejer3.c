@@ -67,7 +67,7 @@ int main(int argc, char** argv)
   MPI_Bcast(&first, m*n, MPI_INT, 0, MPI_COMM_WORLD); //Envio y recepcion de la matriz A
   
   
-  /*if(rank == 0)  {
+  if(rank == 0)  {
 	  // Invertimos la segunda matriz
 		for (c = 0; c < p; c++)
 			for (d = 0; d < q; d++)
@@ -97,7 +97,7 @@ int main(int argc, char** argv)
 			
 		printf("\n");
 		printf("\n");
-	}*/
+	}
   
 		
 	
@@ -129,13 +129,16 @@ int main(int argc, char** argv)
   }
 
 
-   //Envio de la matriz B. Cada columna a un proceso.
+   // Devuelvo las columnas caluladas
 	MPI_Gather(&tmpC, (m*q)/size, MPI_INT, &multiply, (m*q)/size, MPI_INT, 0, MPI_COMM_WORLD);
 
   
 
 
   if(rank == 0) {
+	  
+	printf("\n");
+	printf("\n");
 
     printf("Product of entered matrices:\n");
 
