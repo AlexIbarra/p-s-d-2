@@ -7,7 +7,6 @@ int main(int argc, char** argv)
 {
   int i, j, m, n, p, q, c, d, k, sum = 0, rank, size, cont;
   int first[100000], second[100000], multiply[100000];
-  //~ int * first, * second, * multiply;
 
   
   MPI_Init(&argc, &argv);
@@ -24,18 +23,13 @@ int main(int argc, char** argv)
 
 
   if(rank == 0) {
-
     printf("Enter the number of rows and columns of first matrix\n");
     scanf("%d%d", &m, &n);
-   //printf("Enter the elements of first matrix\n");
   }
 
   MPI_Bcast(&m, 1, MPI_INT, 0, MPI_COMM_WORLD);//Envio de la dimension
   MPI_Bcast(&n, 1, MPI_INT, 0, MPI_COMM_WORLD);//Envio de la dimension
 
-  //printf("Soy %d con m=%d y n=%d\n",rank, m, n);
-
-  //~ first = (int *)malloc(m*n*sizeof(int));
 
   if(rank == 0) {
    
@@ -51,9 +45,6 @@ int main(int argc, char** argv)
   MPI_Bcast(&p, 1, MPI_INT, 0, MPI_COMM_WORLD);//Envio de la dimension
   MPI_Bcast(&q, 1, MPI_INT, 0, MPI_COMM_WORLD);//Envio de la dimension
 
-  //printf("Soy %d con p=%d y q=%d\n",rank, p, q);
-
-  //~ second = (int *)malloc(p*q*sizeof(int));
 
   if(rank == 0) {
    
@@ -61,7 +52,6 @@ int main(int argc, char** argv)
       printf("Matrices with entered orders can't be multiplied with each other.\n");
     else
     {
-   // printf("Enter the elements of second matrix\n");
    
       for (c = 0; c < p; c++)
         for (d = 0; d < q; d++)
@@ -69,8 +59,6 @@ int main(int argc, char** argv)
     }
 
   }
-
-  //~ multiply = (int *)malloc(m*q*sizeof(int));
 
   inicio = MPI_Wtime();
   
@@ -96,9 +84,7 @@ int main(int argc, char** argv)
   }
 
 
-  //~ if(rank == 0)
-    //~ MPI_Waitall(cont, request_list, status_list);
-    MPI_Barrier(MPI_COMM_WORLD);
+  MPI_Barrier(MPI_COMM_WORLD);
 
 
 
@@ -115,9 +101,7 @@ int main(int argc, char** argv)
     }
   }
 
-  //printf("HOLA\n");
-
-   //Envio de la matriz B. Cada columna a un proceso.
+  //Envio de la matriz B. Cada columna a un proceso.
   cont=0;
   for(i = 0; i < m; i++){
     for(j = 0; j < q; j++){
@@ -133,9 +117,7 @@ int main(int argc, char** argv)
   }
 
 
-  //~ if(rank == 0)
-    //~ MPI_Waitall(cont, request_list, status_list);
-    MPI_Barrier(MPI_COMM_WORLD);
+  MPI_Barrier(MPI_COMM_WORLD);
 
 
   if(rank == 0) {
