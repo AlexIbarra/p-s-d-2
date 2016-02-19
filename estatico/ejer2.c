@@ -132,6 +132,11 @@ int main(int argc, char** argv)
     //~ }
     fin = MPI_Wtime();
     printf("tiempo: %f\n", fin-inicio);
+
+    FILE *fd;
+    fd = fopen("program3.txt","a");
+    fprintf(fd, "%d\t%f\n", size, fin - inicio);
+    fclose(fd);
   }
  
   MPI_Finalize();

@@ -5,6 +5,7 @@
 #define P 165
 /**  MASTER WORKER  */
 int main(int argc,char*argv[]){
+	 
 	 int rank,size;
 	 
 	 MPI_Status status;

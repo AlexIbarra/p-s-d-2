@@ -1,22 +1,23 @@
-
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <mpi.h>
 
-int first[500][500], second[500][500], multiply[500][500];
+int first[100][100], second[100][100], multiply[100][100];
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
+
   int i, m, c, d, k, rank, size;
   double fin, inicio;
-  int n_Columns[size],n_Rows[size],colums,rows,indices[size];
+  
 
   MPI_Status status;
 
   MPI_Init(&argc, &argv);
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+  int n_Columns[size],n_Rows[size],colums,rows,indices[size];
   
 
   srand(time(NULL));
@@ -24,7 +25,7 @@ int main(int argc, char** argv)
   
   if(rank == 0) {
 
-    printf("Enter the number of rows and columns of first matrix\n");
+    //printf("Enter the number of rows and columns of first matrix\n");
     scanf("%d", &m);
     
     for (c = 0; c < m; c++)
@@ -38,7 +39,7 @@ int main(int argc, char** argv)
   
 
 
-  if(rank == 0)  {
+  /*if(rank == 0)  {
 				
 		printf("\n");
 		printf("\n");
@@ -64,7 +65,7 @@ int main(int argc, char** argv)
 			
 		printf("\n");
 		printf("\n");
-	}
+	}*/
   
 
   inicio = MPI_Wtime();
@@ -82,7 +83,7 @@ int main(int argc, char** argv)
     n_Columns[i] = (i < m%size ) ? (m/size+1)*m:(m/size)*m;
     indices[i] = n_Columns[i-1]+indices[i-1];
   }
-	 a
+
   MPI_Barrier(MPI_COMM_WORLD);
   MPI_Scatterv(&first,n_Columns,indices,MPI_INT,&first,rows,MPI_INT,0,MPI_COMM_WORLD);
   MPI_Barrier(MPI_COMM_WORLD);
@@ -122,7 +123,7 @@ int main(int argc, char** argv)
   if(rank == 0) {
     fin = MPI_Wtime();
 
-    printf("\n");
+    /*printf("\n");
     printf("\n");
 
     printf("Product of entered matrices:\n");
@@ -135,9 +136,14 @@ int main(int argc, char** argv)
     }
     
     printf("\n");
-    printf("\n");
+    printf("\n");*/
     
     printf("tiempo: %f\n", fin-inicio);
+
+    FILE *fd;
+    fd = fopen("program4.txt","a");
+    fprintf(fd, "%d\t%f\n", size, fin - inicio);
+    fclose(fd);
   }
  
   MPI_Finalize();

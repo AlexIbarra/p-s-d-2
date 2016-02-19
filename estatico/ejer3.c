@@ -28,7 +28,7 @@ int main(int argc, char** argv)
   /* Pedimos tamaño de las matrices y las inicializamos */
   if(rank == 0) {
 
-    printf("Enter the number of rows and columns of first matrix\n");
+    //printf("Enter the number of rows and columns of first matrix\n");
     scanf("%d", &m);
     
     for (c = 0; c < m; c++)
@@ -48,7 +48,7 @@ int main(int argc, char** argv)
   
 
   /* El proceso MASTER muestra las matrices por pantalla */
-  if(rank == 0)  {
+  /*if(rank == 0)  {
     printf("\n");
     printf("\n");
     
@@ -73,7 +73,7 @@ int main(int argc, char** argv)
     
     printf("\n");
     printf("\n");
-  }
+  }*/
   
     
   
@@ -113,7 +113,7 @@ int main(int argc, char** argv)
   if(rank == 0) {
     fin = MPI_Wtime();
   
-    printf("\n");
+    /*printf("\n");
     printf("\n");
     printf("Product of entered matrices:\n");
 
@@ -124,9 +124,14 @@ int main(int argc, char** argv)
       printf("\n");
     }
     printf("\n");
-    printf("\n");
+    printf("\n");*/
     
     printf("tiempo: %f\n", fin-inicio);
+
+    FILE *fd;
+    fd = fopen("program3.txt","a");
+    fprintf(fd, "%d\t%f\n", size, fin - inicio);
+    fclose(fd);
   }
  
   MPI_Finalize();
