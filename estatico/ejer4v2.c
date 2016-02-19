@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
   
 
 
-  /*if(rank == 0)  {
+  if(rank == 0)  {
 				
 		printf("\n");
 		printf("\n");
@@ -65,7 +65,7 @@ int main(int argc, char** argv) {
 			
 		printf("\n");
 		printf("\n");
-	}*/
+	}
   
 
   inicio = MPI_Wtime();
@@ -74,13 +74,26 @@ int main(int argc, char** argv) {
   MPI_Bcast(&second, m*m, MPI_INT, 0, MPI_COMM_WORLD); //Envio y recepcion de la matriz B
   
   
-  /** DESCOMPOSICION DE LA MATRIZ  A */
-  rows = ( rank < m%size )?(m/size+1)*m:(m/size)*m;
+  /** DESCOMPOSICION DE LA MATRIZ  first */
+  if(rank < m%size)
+	rows = (m/size+1)*m;
+  else
+    rows = (m/size)*m;
+    
   indices[0] = 0 ;
-  n_Columns[0] = ( 0<m%size )?(m/size+1)*m:(m/size)*m;
+  
+  if(0<m%size)
+	n_Columns[0] = (m/size+1)*m;
+  else
+	n_Columns[0] = (m/size)*m;
+
 	 
   for(i=1;i<size;i++){
-    n_Columns[i] = (i < m%size ) ? (m/size+1)*m:(m/size)*m;
+    if(i<m%size)
+	  n_Columns[i] = (m/size+1)*m;
+    else
+	  n_Columns[i] = (m/size)*m;
+	  
     indices[i] = n_Columns[i-1]+indices[i-1];
   }
 
@@ -101,20 +114,32 @@ int main(int argc, char** argv) {
   }
 	  
 	  
-	  /** AGRUPAMOS LOS RESULTADOS OBTENIDOS EN C */
-  colums = ( rank < m%size )?(m/size+1)*m : m/size*m;
-  n_Rows[0] = ( 0 < m%size )?(m/size+1)*m : m/size*m;
+	  /** AGRUPAMOS LOS RESULTADOS OBTENIDOS EN multiply */
+  if(rank < m%size)
+	colums = (m/size+1)*m;
+  else
+    colums = (m/size)*m;
+    
+  if(0<m%size)
+	n_Rows[0] = (m/size+1)*m;
+  else
+	n_Rows[0] = (m/size)*m;
+	
   indices[0] = 0;
 
 
   for(i=1;i<size;i++) {
-    n_Rows[i] = (i < m%size )?(m/size+1)*m:(m/size)*m;
+    if(i<m%size)
+	  n_Rows[i] = (m/size+1)*m;
+    else
+	  n_Rows[i] = (m/size)*m;
+	  
     indices[i] = n_Rows[i-1]+indices[i-1];
   }
 
 
    // Devuelvo las columnas caluladas
-	MPI_Barrier(MPI_COMM_WORLD);
+  MPI_Barrier(MPI_COMM_WORLD);
   MPI_Gatherv(&multiply,colums,MPI_INT,&multiply,n_Rows,indices,MPI_INT,0,MPI_COMM_WORLD);
   MPI_Barrier(MPI_COMM_WORLD);
   
@@ -123,7 +148,7 @@ int main(int argc, char** argv) {
   if(rank == 0) {
     fin = MPI_Wtime();
 
-    /*printf("\n");
+    printf("\n");
     printf("\n");
 
     printf("Product of entered matrices:\n");
@@ -136,7 +161,7 @@ int main(int argc, char** argv) {
     }
     
     printf("\n");
-    printf("\n");*/
+    printf("\n");
     
     printf("tiempo: %f\n", fin-inicio);
 
@@ -151,4 +176,5 @@ int main(int argc, char** argv) {
  
   return 0;
 }
+
 

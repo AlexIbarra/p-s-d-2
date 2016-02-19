@@ -58,7 +58,7 @@ int main(int argc, char** argv)
 
   }
   
-   if(rank == 0)  {
+  if(rank == 0)  {
     printf("\n");
     printf("\n");
     
@@ -87,20 +87,20 @@ int main(int argc, char** argv)
 
   inicio = MPI_Wtime();
   
-  MPI_Bcast(&first, m*n, MPI_INT, 0, MPI_COMM_WORLD); //Envio y recepcion de la matriz A
+  MPI_Bcast(&second, p*q, MPI_INT, 0, MPI_COMM_WORLD); //Envio y recepcion de la matriz B
 
 
 
   //Envio de la matriz B. Cada columna a un proceso.
-  for(i = 0; i < p; i++) {
-    for(j = 0; j < q; j++) { 
+  for(i = 0; i < m; i++) {
+    for(j = 0; j < m; j++) { 
       if(j%size != 0) { // Para evitar que el P0 se lo envie a si mismo
 
         if(rank == 0) {
-          MPI_Send(&second[i*q+j], 1, MPI_INT, j%size, 1, MPI_COMM_WORLD);
+          MPI_Send(&first[i*n+j], 1, MPI_INT, j%size, 1, MPI_COMM_WORLD);
         } 
         else if(rank == j%size) {
-          MPI_Recv(&second[i*q+j], 1, MPI_INT, 0, 1, MPI_COMM_WORLD, &status);
+          MPI_Recv(&first[i*n+j], 1, MPI_INT, 0, 1, MPI_COMM_WORLD, &status);
         }
       }
     }
@@ -152,4 +152,5 @@ int main(int argc, char** argv)
  
   return 0;
 }
+
 
